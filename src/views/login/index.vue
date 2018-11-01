@@ -7,7 +7,7 @@
         <span class="svg-container">
           <i class="arley-icon arley-icon-login"></i>
         </span>
-                <el-input v-model="loginForm.username" name="username" type="text" auto-complete="on"
+                <el-input v-model="loginForm.userName" name="userName" type="text" auto-complete="on"
                           placeholder="username"/>
             </el-form-item>
             <el-form-item prop="password">
@@ -42,7 +42,6 @@
     import {isvalidUsername} from '@/utils/validate'
 
     export default {
-        name: 'Login',
         data() {
             const validateUsername = (rule, value, callback) => {
                 if (!isvalidUsername(value)) {
@@ -60,11 +59,11 @@
             };
             return {
                 loginForm: {
-                    username: 'admin',
+                    userName: 'admin',
                     password: 'admin'
                 },
                 loginRules: {
-                    username: [{required: true, trigger: 'blur', validator: validateUsername}],
+                    userName: [{required: true, trigger: 'blur', validator: validateUsername}],
                     password: [{required: true, trigger: 'blur', validator: validatePass}]
                 },
                 loading: false,
