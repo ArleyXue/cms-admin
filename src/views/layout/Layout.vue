@@ -4,13 +4,14 @@
         <sidebar class="sidebar-container"/>
         <div class="main-container">
             <navbar/>
+            <tags-view/>
             <app-main/>
         </div>
     </div>
 </template>
 
 <script>
-    import {Navbar, Sidebar, AppMain} from './components'
+    import { Navbar, Sidebar, AppMain, TagsView } from './components'
     import ResizeMixin from './mixin/ResizeHandler'
 
     export default {
@@ -18,7 +19,8 @@
         components: {
             Navbar,
             Sidebar,
-            AppMain
+            AppMain,
+            TagsView
         },
         mixins: [ResizeMixin],
         computed: {
@@ -39,7 +41,7 @@
         },
         methods: {
             handleClickOutside() {
-                this.$store.dispatch('CloseSideBar', {withoutAnimation: false})
+                this.$store.dispatch('closeSideBar', { withoutAnimation: false })
             }
         }
     }
@@ -47,6 +49,7 @@
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
     @import "../../styles/mixin.styl";
+
     .app-wrapper
         @include clearfix
         position relative
@@ -55,12 +58,11 @@
         &.mobile.openSidebar
             position fixed
             top 0
-
     .drawer-bg
         background #000
         opacity 0.3
         width 100%
-        top 0
+        top 0;
         height 100%
         position absolute
         z-index 999

@@ -1,6 +1,4 @@
-import request from '@/utils/request'
-
-import {postRes} from "../utils/request";
+import {postRes, getRes} from "../utils/request";
 
 /**
  * 登陆
@@ -8,22 +6,15 @@ import {postRes} from "../utils/request";
  * @param password
  */
 export function login(userName, password) {
-    return postRes("/api/login/login", {userName, password});
+    return postRes("/api/user/login", {userName, password});
 }
 
-export function getInfo(token) {
-    return request({
-        url: '/user/info',
-        method: 'get',
-        params: {token}
-    })
+export function getUserInfo(token) {
+    return getRes("/api/user/getUserInfo");
 }
 
 export function logout() {
-    return request({
-        url: '/user/logout',
-        method: 'post'
-    })
+    return getRes("/api/user/logout");
 }
 
 

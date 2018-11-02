@@ -1,4 +1,4 @@
-import {login, logout, getInfo} from '@/api/login'
+import {login, logout, getUserInfo} from '@/api/login'
 import {getToken, setToken, removeToken} from '@/utils/auth'
 import {postRes} from "../../api/login";
 
@@ -41,10 +41,10 @@ const user = {
         },
 
         // 获取用户信息
-        GetInfo({commit, state}) {
+        GetUserInfo({commit, state}) {
             return new Promise((resolve, reject) => {
-                getInfo(state.token).then(response => {
-                    const data = response.data;
+                getUserInfo().then(response => {
+                    const data = response.resultData;
                     if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
                         commit('SET_ROLES', data.roles)
                     } else {
@@ -60,9 +60,9 @@ const user = {
         },
 
         // 登出
-        LogOut({commit, state}) {
+        Logout({commit, state}) {
             return new Promise((resolve, reject) => {
-                logout(state.token).then(() => {
+                logout().then(() => {
                     commit('SET_TOKEN', '');
                     commit('SET_ROLES', []);
                     removeToken();
@@ -74,7 +74,7 @@ const user = {
         },
 
         // 前端 登出
-        FedLogOut({commit}) {
+        FedLogout({commit}) {
             return new Promise(resolve => {
                 commit('SET_TOKEN', '');
                 removeToken();

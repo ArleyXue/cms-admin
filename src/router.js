@@ -22,19 +22,21 @@ import Layout from './views/layout/Layout'
   }
  **/
 export const constantRouterMap = [
-    { path: '/login', component: () => import('@/views/login/index'), hidden: true },
-    { path: '/404', component: () => import('@/views/404'), hidden: true },
+    {path: '/login', component: () => import('@/views/login/index'), hidden: true},
+    {path: '/404', component: () => import('@/views/404'), hidden: true},
     {
-        path: '/',
+        path: '',
         component: Layout,
-        redirect: '/dashboard',
-        hidden: false,
-        children: [{
-            path: 'dashboard',
-            component: () => import('@/views/dashboard/index'),
-            name: '首页',
-            meta: { title: '首页', icon: 'dashboard', noCache: true }
-        }]
+        redirect: 'index',
+        children: [
+            {
+                path: 'index',
+                component: () => import('@/views/index/Index'),
+
+                name: '首页',
+                meta: {title: '首页', icon: 'arley-icon arley-icon-home', noCache: true}
+            }
+        ]
     },
 
     {
@@ -42,19 +44,19 @@ export const constantRouterMap = [
         component: Layout,
         redirect: '/example/table',
         name: 'Example',
-        meta: { title: 'Example', icon: 'example' },
+        meta: {title: 'Example', icon: 'example'},
         children: [
             {
                 path: 'table',
                 name: 'Table',
                 component: () => import('@/views/table/index'),
-                meta: { title: 'Table', icon: 'table' }
+                meta: {title: 'Table', icon: 'table'}
             },
             {
                 path: 'tree',
                 name: 'Tree',
                 component: () => import('@/views/tree/index'),
-                meta: { title: 'Tree', icon: 'tree' }
+                meta: {title: 'Tree', icon: 'tree'}
             }
         ]
     },
@@ -67,11 +69,33 @@ export const constantRouterMap = [
                 path: 'index',
                 name: 'Form',
                 component: () => import('@/views/form/index'),
-                meta: { title: 'Form', icon: 'form' }
+                meta: {title: 'Form', icon: 'form'}
+            }
+        ]
+    },
+    {
+        path: '/redirect',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: '/redirect/:path*',
+                component: () => import('@/views/redirect/index')
             }
         ]
     },
 
+
+];
+
+export default new Router({
+    // mode: 'history', //后端支持可开
+    scrollBehavior: () => ({y: 0}),
+    routes: constantRouterMap
+})
+
+
+export const asyncRouterMap = [
     {
         path: '/nested',
         component: Layout,
@@ -86,31 +110,31 @@ export const constantRouterMap = [
                 path: 'menu1',
                 component: () => import('@/views/nested/menu1/index'), // Parent router-view
                 name: 'Menu1',
-                meta: { title: 'Menu1' },
+                meta: {title: 'Menu1'},
                 children: [
                     {
                         path: 'menu1-1',
                         component: () => import('@/views/nested/menu1/menu1-1'),
                         name: 'Menu1-1',
-                        meta: { title: 'Menu1-1' }
+                        meta: {title: 'Menu1-1'}
                     },
                     {
                         path: 'menu1-2',
                         component: () => import('@/views/nested/menu1/menu1-2'),
                         name: 'Menu1-2',
-                        meta: { title: 'Menu1-2' },
+                        meta: {title: 'Menu1-2'},
                         children: [
                             {
                                 path: 'menu1-2-1',
                                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
                                 name: 'Menu1-2-1',
-                                meta: { title: 'Menu1-2-1' }
+                                meta: {title: 'Menu1-2-1'}
                             },
                             {
                                 path: 'menu1-2-2',
                                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
                                 name: 'Menu1-2-2',
-                                meta: { title: 'Menu1-2-2' }
+                                meta: {title: 'Menu1-2-2'}
                             }
                         ]
                     },
@@ -118,24 +142,18 @@ export const constantRouterMap = [
                         path: 'menu1-3',
                         component: () => import('@/views/nested/menu1/menu1-3'),
                         name: 'Menu1-3',
-                        meta: { title: 'Menu1-3' }
+                        meta: {title: 'Menu1-3'}
                     }
                 ]
             },
             {
                 path: 'menu2',
                 component: () => import('@/views/nested/menu2/index'),
-                meta: { title: 'menu2' }
+                meta: {title: 'menu2'}
             }
         ]
     },
 
-
-    { path: '*', redirect: '/404', hidden: true }
+    {path: '*', redirect: '/404', hidden: true}
 ];
 
-export default new Router({
-    // mode: 'history', //后端支持可开
-    scrollBehavior: () => ({ y: 0 }),
-    routes: constantRouterMap
-})
