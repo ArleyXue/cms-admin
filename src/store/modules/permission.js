@@ -19,10 +19,10 @@ function hasPermission(roles, route) {
  * @param roles
  */
 function filterAsyncRouter(routes, roles) {
-    const res = []
+    const res = [];
 
     routes.forEach(route => {
-        const tmp = {...route}
+        const tmp = {...route};
         if (hasPermission(roles, tmp)) {
             if (tmp.children) {
                 tmp.children = filterAsyncRouter(tmp.children, roles)
@@ -41,7 +41,7 @@ const permission = {
     },
     mutations: {
         SET_ROUTERS: (state, routers) => {
-            state.addRouters = routers
+            state.addRouters = routers;
             state.routers = constantRouterMap.concat(routers)
         }
     },
@@ -55,11 +55,11 @@ const permission = {
                 } else {
                     accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
                 }
-                commit('SET_ROUTERS', accessedRouters)
+                commit('SET_ROUTERS', accessedRouters);
                 resolve()
             })
         }
     }
-}
+};
 
 export default permission

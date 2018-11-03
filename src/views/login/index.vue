@@ -60,7 +60,7 @@
             return {
                 loginForm: {
                     userName: 'admin',
-                    password: 'admin'
+                    password: '11111111'
                 },
                 loginRules: {
                     userName: [{required: true, trigger: 'blur', validator: validateUsername}],

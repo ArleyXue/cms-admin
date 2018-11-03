@@ -97,59 +97,29 @@ export default new Router({
 
 export const asyncRouterMap = [
     {
-        path: '/nested',
+        path: '/admin',
         component: Layout,
-        redirect: '/nested/menu1',
-        name: 'Nested',
-        meta: {
-            title: 'Nested',
-            icon: 'nested'
-        },
+        redirect: '/admin/admin-list',
+        name: 'admin',
+        meta: {title: '管理员管理', icon: ''},
         children: [
             {
-                path: 'menu1',
-                component: () => import('@/views/nested/menu1/index'), // Parent router-view
-                name: 'Menu1',
-                meta: {title: 'Menu1'},
-                children: [
-                    {
-                        path: 'menu1-1',
-                        component: () => import('@/views/nested/menu1/menu1-1'),
-                        name: 'Menu1-1',
-                        meta: {title: 'Menu1-1'}
-                    },
-                    {
-                        path: 'menu1-2',
-                        component: () => import('@/views/nested/menu1/menu1-2'),
-                        name: 'Menu1-2',
-                        meta: {title: 'Menu1-2'},
-                        children: [
-                            {
-                                path: 'menu1-2-1',
-                                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                                name: 'Menu1-2-1',
-                                meta: {title: 'Menu1-2-1'}
-                            },
-                            {
-                                path: 'menu1-2-2',
-                                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                                name: 'Menu1-2-2',
-                                meta: {title: 'Menu1-2-2'}
-                            }
-                        ]
-                    },
-                    {
-                        path: 'menu1-3',
-                        component: () => import('@/views/nested/menu1/menu1-3'),
-                        name: 'Menu1-3',
-                        meta: {title: 'Menu1-3'}
-                    }
-                ]
+                path: 'admin-list',
+                name: 'admin-list',
+                component: () => import('@/views/admin/admin/Index'),
+                meta: {title: '管理员列表', icon: ''}
             },
             {
-                path: 'menu2',
-                component: () => import('@/views/nested/menu2/index'),
-                meta: {title: 'menu2'}
+                path: 'role-list',
+                name: 'role-list',
+                component: () => import('@/views/admin/role/Index'),
+                meta: {title: '角色列表', icon: ''}
+            },
+            {
+                path: 'permission-list',
+                name: 'permission-list',
+                component: () => import('@/views/admin/permission/Index'),
+                meta: {title: '菜单列表', icon: ''}
             }
         ]
     },
