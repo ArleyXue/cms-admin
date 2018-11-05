@@ -1,12 +1,9 @@
 <template>
     <div class="app-container">
         <div class="filter-container">
-            <el-input placeholder="$t('table.title')" v-model="userName" style="width: 200px;" class="filter-item"/>
-            <el-select  style="width: 140px" class="filter-item" @change="handleFilter">
-                <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key"/>
-            </el-select>
+            <el-input placeholder="用户名" v-model="searchParams.userName" style="width: 200px;" class="filter-item"/>
 
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search">
+            <el-button v-waves class="filter-item" style="margin-left: 5px;" type="primary" @click="searchData" icon="el-icon-search">
                 搜索
             </el-button>
             <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit">
@@ -17,52 +14,101 @@
 
         <el-table
                 :data="tableData"
+                v-loading="loading"
                 border
-                style="width: 100%">
-            <el-table-column
-                    prop="date"
-                    label="日期"
-                    width="180">
+                fit
+                highlight-current-row
+                style="width: 100%"
+                @sort-change="sortChange">
+            <el-table-column prop="userId" label="ID"  align="center" sortable="custom"></el-table-column>
+            <el-table-column prop="userName" label="用户名"  align="center"></el-table-column>
+            <el-table-column prop="name" label="姓名"  align="center"></el-table-column>
+            <el-table-column prop="avatar" label="头像"  align="center">
+                <template slot-scope="scope">
+                    <img :src="scope.row.avatar" width="40" height="40" />
+                </template>
             </el-table-column>
-            <el-table-column
-                    prop="name"
-                    label="姓名"
-                    width="180">
+            <el-table-column prop="email" label="邮箱"  align="center"></el-table-column>
+            <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+            <el-table-column prop="loginNum" label="登录次数" align="center"></el-table-column>
+            <el-table-column prop="loginTime" label="上次登录时间" align="center" width="160"></el-table-column>
+            <el-table-column prop="loginNum" label="登录次数" align="center"></el-table-column>
+            <el-table-column prop="userState" label="状态" align="center">
+                <template slot-scope="scope">
+                    <el-tag :type="scope.row.userState === 1 ?  'success' : 'danger'">{{scope.row.userState === 1 ? '启动' : '禁用'}}</el-tag>
+                </template>
             </el-table-column>
-            <el-table-column
-                    prop="address"
-                    label="地址">
+            <el-table-column prop="modifier" label="操作人" align="center"></el-table-column>
+            <el-table-column label="操作" align="center" fixed="right" width="180">
+                <template slot-scope="scope">
+                    <el-button size="mini" type="primary">编辑</el-button>
+                    <el-button size="mini" type="danger" >删除</el-button>
+                </template>
             </el-table-column>
         </el-table>
+
+        <pagination v-show="total > 0" :total="total" :page.sync="searchParams.page" :limit.sync="searchParams.limit" @pagination="listTableData" />
+
     </div>
 </template>
 
 <script>
     import waves from '@/directive/waves' // 水波纹
+
+    import {listAdminByPage} from '@/api/admin'
+    import Pagination from "@/components/Pagination/Pagination" // 分页
+
     export default {
         directives: {waves},
         data() {
             return {
-                userName: "",
-                tableData: [{
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                }]
+                loading: false,
+                total: 0, // 分页总数量
+                tableData: [],
+                searchParams: { // 搜索的参数
+                    userName: "",
+                    page: 1,  // 当前页
+                    limit: 10, // 每页数量
+                    sortField: "",
+                    sortOrder: ""
+                }
+
+            }
+        },
+
+        created() {
+            this.listTableData()
+        },
+
+        components: {
+            Pagination
+        },
+
+        methods: {
+            listTableData() {  // 获取数据
+                this.loading = true;
+                listAdminByPage(this.searchParams).then(response => {
+                    this.tableData = response.resultData.data;
+                    this.total = response.resultData.total;
+
+                    this.loading = false;   // 取消loading
+
+                })
+            },
+
+            searchData() { // 搜索
+                this.searchParams.page = 1;
+                this.listTableData();
+            },
+
+            sortChange(data) { // 排序
+                const { prop, order } = data;
+                this.searchParams.sortField = prop;
+                this.searchParams.sortOrder = order;
+                this.searchData();
             }
         }
+
     }
 </script>
 

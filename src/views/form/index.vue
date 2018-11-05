@@ -80,7 +80,7 @@
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
     .line
-        text-align center
+        text-align: center
 
 </style>
 

@@ -76,15 +76,13 @@
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
     .scroll-container
-        white-space nowrap
-        position relative
-        overflow hidden
-        width 100%
+        white-space: nowrap
+        position: relative
+        overflow: hidden
+        width: 100%
         /deep/
-            .el-scrollbar__bar
-                bottom 0px
-
-            .el-scrollbar__wrap
-                height 49px
-
+        .el-scrollbar__bar
+            bottom: 0px
+        .el-scrollbar__wrap
+            height: 49px
 </style>
