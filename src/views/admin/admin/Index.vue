@@ -3,11 +3,11 @@
         <div class="filter-container">
             <el-input placeholder="用户名" v-model="searchParams.userName" style="width: 200px;" class="filter-item"/>
 
-            <el-button v-waves class="filter-item" style="margin-left: 5px;" type="primary" @click="searchData" icon="el-icon-search">
-                搜索
+            <el-button v-waves class="filter-item" style="margin-left: 5px;" type="primary" @click="searchData">
+                <i class="arley-icon arley-icon-search"></i>搜索
             </el-button>
-            <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit">
-                添加
+            <el-button class="filter-item" style="margin-left: 10px;" type="primary">
+                <i class="arley-icon arley-icon-add"></i>添加
             </el-button>
 
         </div>
@@ -39,15 +39,34 @@
                 </template>
             </el-table-column>
             <el-table-column prop="modifier" label="操作人" align="center"></el-table-column>
-            <el-table-column label="操作" align="center" fixed="right" width="180">
+            <el-table-column label="操作" align="center" fixed="right" width="210">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="primary">编辑</el-button>
-                    <el-button size="mini" type="danger" >删除</el-button>
+                    <el-button size="mini" type="primary"><i class="arley-icon arley-icon-edit"></i>编辑</el-button>
+                    <el-button size="mini" type="danger"><i class="arley-icon arley-icon-del"></i>删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
 
         <pagination v-show="total > 0" :total="total" :page.sync="searchParams.page" :limit.sync="searchParams.limit" @pagination="listTableData" />
+
+
+        <el-dialog title="添加管理员" :visible.sync="dialogFormVisible">
+            <el-form :model="form">
+                <el-form-item label="活动名称" :label-width="formLabelWidth">
+                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="活动区域" :label-width="formLabelWidth">
+                    <el-select v-model="form.region" placeholder="请选择活动区域">
+                        <el-option label="区域一" value="shanghai"></el-option>
+                        <el-option label="区域二" value="beijing"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
 
     </div>
 </template>
@@ -71,7 +90,8 @@
                     limit: 10, // 每页数量
                     sortField: "",
                     sortOrder: ""
-                }
+                },
+                dialogFormVisible: false
 
             }
         },
