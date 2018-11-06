@@ -6,7 +6,7 @@
             <el-button v-waves class="filter-item" style="margin-left: 5px;" type="primary" @click="searchData">
                 <i class="arley-icon arley-icon-search"></i>搜索
             </el-button>
-            <el-button class="filter-item" style="margin-left: 10px;" type="primary">
+            <el-button class="filter-item" style="margin-left: 10px;" type="primary" @click="addAdmin">
                 <i class="arley-icon arley-icon-add"></i>添加
             </el-button>
 
@@ -50,20 +50,17 @@
         <pagination v-show="total > 0" :total="total" :page.sync="searchParams.page" :limit.sync="searchParams.limit" @pagination="listTableData" />
 
 
-        <el-dialog title="添加管理员" :visible.sync="dialogFormVisible">
-            <el-form :model="form">
-                <el-form-item label="活动名称" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" autocomplete="off"></el-input>
+        <el-dialog title="添加管理员" :visible.sync="dialogFormVisible" >
+            <el-form :model="adminForm" ref="adminForm"
+                     :rules="rules" label-position="left"
+                     label-width="70px" style="width: 70%; margin-left:50px;">
+                <el-form-item label="用户名:" prop="userName">
+                    <el-input v-model="adminForm.userName"></el-input>
                 </el-form-item>
-                <el-form-item label="活动区域" :label-width="formLabelWidth">
-                    <el-select v-model="form.region" placeholder="请选择活动区域">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                </el-form-item>
+
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button @click="closeForm">取 消</el-button>
                 <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
             </div>
         </el-dialog>
@@ -80,6 +77,14 @@
     export default {
         directives: {waves},
         data() {
+            let validateUserName = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入用户名'));
+                } else {
+
+                    // callback();
+                }
+            };
             return {
                 loading: false,
                 total: 0, // 分页总数量
@@ -91,9 +96,17 @@
                     sortField: "",
                     sortOrder: ""
                 },
-                dialogFormVisible: false
+                dialogFormVisible: false,
+                adminForm: {
+                    userName: ''
+                },
+                rules: {
+                    userName: [{ validator: validateUserName, required: true, message: '请输入用户名', trigger: 'blur'}],
 
-            }
+                },
+
+            };
+
         },
 
         created() {
@@ -126,6 +139,15 @@
                 this.searchParams.sortField = prop;
                 this.searchParams.sortOrder = order;
                 this.searchData();
+            },
+
+            addAdmin() {
+                this.dialogFormVisible = true;
+            },
+
+            closeForm() {
+                this.dialogFormVisible = false;
+                this.$refs.adminForm.resetFields();
             }
         }
 
