@@ -26,7 +26,7 @@
             <el-table-column align="center" label="菜单链接" show-overflow-tooltip prop="menuUrl"></el-table-column>
             <el-table-column align="center" label="菜单标识" prop="menuCode">
                 <template slot-scope="scope">
-                    <i class="arley-icon" :class="scope.row.menuIcon"></i>
+                    <i :class="scope.row.menuIcon"></i>
                 </template>
             </el-table-column>
             <el-table-column align="center" label="菜单图标" prop="menuIcon"></el-table-column>
