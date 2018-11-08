@@ -37,12 +37,49 @@
             </el-table-column>
             <el-table-column align="center" label="排序" prop="menuPriority"></el-table-column>
 
-            <el-table-column align="center" label="操作" width="200">
+            <el-table-column align="center" label="操作" width="220">
                 <template slot-scope="scope">
-                    <el-button type="text" @click="message(scope.row)">点击</el-button>
+                    <el-button size="mini" @click="handleUpdate(scope.row.permissionId)"><i class="arley-icon arley-icon-add"></i>添加子菜单</el-button>
+                    <el-button size="mini" type="primary" @click="handleUpdate(scope.row)"><i class="arley-icon arley-icon-edit"></i>编辑</el-button>
                 </template>
             </el-table-column>
         </el-table>
+
+
+        <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" top="40px">
+            <el-form :model="itemForm" ref="itemForm"
+                     :rules="rules" label-position="right" hide-required-asterisk
+                     label-width="90px" style="width: 70%; margin-left:40px;">
+
+                <el-form-item label="父菜单名称" prop="parentMenuName">
+                    <el-input v-model="itemForm.parentMenuName" disabled placeholder="请输入父菜单名称"/>
+                </el-form-item>
+
+                <el-form-item label="菜单名称" prop="menuName">
+                    <el-input v-model="itemForm.menuName" placeholder="请输入菜单名称"/>
+                </el-form-item>
+
+                <el-form-item label="菜单标识" prop="menuCode">
+                    <el-input v-model="itemForm.menuCode" placeholder="请输入菜单标识"/>
+                </el-form-item>
+
+                <el-form-item label="菜单排序" prop="menuPriority">
+                    <el-input v-model.number="itemForm.menuPriority" placeholder="请输入菜单排序"/>
+                </el-form-item>
+
+                <el-form-item label="菜单类型">
+                    <el-radio-group v-model="itemForm.menuType">
+                        <el-radio :label.number="1">菜单</el-radio>
+                        <el-radio :label.number="2">按钮</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="closeForm">取 消</el-button>
+                <el-button type="primary" @click="isCreate ? createItem() : updateItem()">确 定</el-button>
+            </div>
+        </el-dialog>
+
     </div>
 </template>
 
@@ -61,7 +98,29 @@
             return {
                 expandAll: true,
                 loading: false,
-                permissionTreeData: []
+                dialogTitle: '',
+                dialogFormVisible: false,
+                isCreate: true,
+                permissionTreeData: [],
+                itemForm: {
+                    parentMenuName: '',
+                    menuName: '',
+                    menuCode: '',
+                    menuType: 1,
+                    remark: '',
+                },
+                rules: {
+                    menuName: [
+                        {  required: true, message: '请输入菜单名称', trigger: 'blur'}
+                    ],
+                    menuCode: [
+                        {  required: true, message: '请输入菜单标识', trigger: 'blur'}
+                    ],
+                    menuPriority: [
+                        {  required: true, message: '请输入菜单排序', trigger: 'blur'},
+                        {  type: 'number', message: '必须为数字值', trigger: 'blur'},
+                    ]
+                },
             }
         },
 
@@ -85,6 +144,28 @@
         },
 
         methods: {
+            handleCreate() { // 打开创建管理员窗口
+                this.dialogTitle = "添加菜单";
+                this.isCreate = true;
+                Object.assign(this.itemForm, this.$options.data().itemForm);   // 重置表单数据
+                this.dialogFormVisible = true;      // 显示表单并清空校验信息
+                this.$nextTick(() => {
+                    this.$refs.itemForm.clearValidate();
+                });
+            },
+
+            createItem() { // 添加管理员
+                this.$refs.itemForm.validate((valid) => {
+                    if (valid) {
+                        console.log(this.itemForm)
+                    }
+                })
+            },
+
+            closeForm() { // 关闭form表单
+                this.dialogFormVisible = false;
+            },
+
             showRow (row) {
                 const show = (row.row.parent ? (row.row.parent._expanded && row.row.parent._show) : true);
                 row.row._show = show;
