@@ -36,7 +36,7 @@
         <pagination v-show="total > 0" :total="total" :page.sync="searchParams.page" :limit.sync="searchParams.limit" @pagination="listTableData" />
 
 
-        <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" top="40px">
+        <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" width="30%">
             <el-form :model="itemForm" ref="itemForm"
                      :rules="rules" label-position="right" hide-required-asterisk
                      label-width="90px" style="width: 70%; margin-left:40px;">

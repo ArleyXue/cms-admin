@@ -24,12 +24,12 @@
             </el-table-column>
 
             <el-table-column align="center" label="菜单链接" show-overflow-tooltip prop="menuUrl"></el-table-column>
-            <el-table-column align="center" label="菜单标识" prop="menuCode">
+            <el-table-column align="center" label="菜单标识" prop="menuCode"></el-table-column>
+            <el-table-column align="center" label="菜单图标" prop="menuIcon">
                 <template slot-scope="scope">
                     <i :class="scope.row.menuIcon"></i>
                 </template>
             </el-table-column>
-            <el-table-column align="center" label="菜单图标" prop="menuIcon"></el-table-column>
             <el-table-column align="center" label="菜单类型" >
                 <template slot-scope="scope">
                     <el-tag :type="scope.row.menuType === 1 ? '' : 'warning'">{{scope.row.menuType === 1 ? '菜单' : '按钮'}}</el-tag>
@@ -39,20 +39,20 @@
 
             <el-table-column align="center" label="操作" width="220">
                 <template slot-scope="scope">
-                    <el-button size="mini" @click="handleUpdate(scope.row.permissionId)"><i class="arley-icon arley-icon-add"></i>添加子菜单</el-button>
+                    <el-button size="mini" @click="handleCreate(scope.row)"><i class="arley-icon arley-icon-add"></i>添加子菜单</el-button>
                     <el-button size="mini" type="primary" @click="handleUpdate(scope.row)"><i class="arley-icon arley-icon-edit"></i>编辑</el-button>
                 </template>
             </el-table-column>
         </el-table>
 
 
-        <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" top="40px">
+        <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible"  width="30%" v-el-drag-dialog>
             <el-form :model="itemForm" ref="itemForm"
                      :rules="rules" label-position="right" hide-required-asterisk
-                     label-width="90px" style="width: 70%; margin-left:40px;">
+                     label-width="90px" style="width: 75%; margin-left:40px;">
 
                 <el-form-item label="父菜单名称" prop="parentMenuName">
-                    <el-input v-model="itemForm.parentMenuName" disabled placeholder="请输入父菜单名称"/>
+                    <el-input v-model="parentMenuName" disabled placeholder="请输入父菜单名称"/>
                 </el-form-item>
 
                 <el-form-item label="菜单名称" prop="menuName">
@@ -73,6 +73,14 @@
                         <el-radio :label.number="2">按钮</el-radio>
                     </el-radio-group>
                 </el-form-item>
+
+                <el-form-item label="菜单链接">
+                    <el-input v-model="itemForm.menuUrl" placeholder="请输入菜单链接"/>
+                </el-form-item>
+
+                <el-form-item label="菜单图标">
+                    <el-input v-model="itemForm.menuIcon" placeholder="请输入菜单图标"/>
+                </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="closeForm">取 消</el-button>
@@ -89,11 +97,11 @@
      Created: 2018/1/19-14:54
      */
     import treeToArray from './eval'
-    import {listHaveHierarchyPermission} from '@/api/admin'
+    import elDragDialog from '@/directive/el-dragDialog' // 拖拽dialog
+    import {listHaveHierarchyPermission, addPermission, editPermission, getPermission} from '@/api/admin'
 
     export default {
-        name: 'TreeTableDemo',
-
+        directives: { elDragDialog },
         data() {
             return {
                 expandAll: true,
@@ -102,12 +110,14 @@
                 dialogFormVisible: false,
                 isCreate: true,
                 permissionTreeData: [],
+                parentMenuName: '',
                 itemForm: {
-                    parentMenuName: '',
                     menuName: '',
                     menuCode: '',
+                    menuPriority: '',
                     menuType: 1,
-                    remark: '',
+                    menuUrl: '',
+                    menuIcon: ''
                 },
                 rules: {
                     menuName: [
@@ -144,10 +154,17 @@
         },
 
         methods: {
-            handleCreate() { // 打开创建管理员窗口
+            handleCreate(permission) { // 打开创建管理员窗口
                 this.dialogTitle = "添加菜单";
                 this.isCreate = true;
                 Object.assign(this.itemForm, this.$options.data().itemForm);   // 重置表单数据
+
+                if (permission.permissionId) {
+                    this.itemForm.parentId = permission.permissionId;
+                    this.parentMenuName = permission.menuName;
+                } else {
+                    this.parentMenuName = "(无)";
+                }
                 this.dialogFormVisible = true;      // 显示表单并清空校验信息
                 this.$nextTick(() => {
                     this.$refs.itemForm.clearValidate();
@@ -157,7 +174,48 @@
             createItem() { // 添加管理员
                 this.$refs.itemForm.validate((valid) => {
                     if (valid) {
-                        console.log(this.itemForm)
+                        addPermission(this.itemForm).then(response => {
+                            this.dialogFormVisible = false;
+                            this._listHaveHierarchyPermission();
+                            this.$message.success("添加成功");
+                        })
+                    }
+                })
+            },
+
+            handleUpdate(row) { // 打开编辑菜单窗口
+                this.dialogTitle = "编辑菜单";
+                this.isCreate = false;
+
+                if (row.parent) {
+                    this.itemForm.parentId = row.parent.permissionId;
+                    this.parentMenuName = row.parent.menuName;
+                } else {
+                    this.parentMenuName = "(无)";
+                    this.itemForm.parentId = '';
+                }
+                this.itemForm.permissionId = row.permissionId;
+                this.itemForm.menuName = row.menuName;
+                this.itemForm.menuCode = row.menuCode;
+                this.itemForm.menuPriority = row.menuPriority;
+                this.itemForm.menuType = row.menuType;
+                this.itemForm.menuUrl = row.menuUrl;
+                this.itemForm.menuIcon = row.menuIcon;
+
+                this.dialogFormVisible = true;  // 显示表单并清空校验信息
+                this.$nextTick(() => {
+                    this.$refs.itemForm.clearValidate();
+                });
+            },
+
+            updateItem() { // 编辑角色
+                this.$refs.itemForm.validate((valid) => {
+                    if (valid) {
+                        editPermission(this.itemForm).then(response => {
+                            this.dialogFormVisible = false;
+                            this._listHaveHierarchyPermission();
+                            this.$message.success("编辑成功");
+                        })
                     }
                 })
             },
@@ -190,7 +248,7 @@
                     this.permissionTreeData = response.resultData;
                     this.loading = false;
                 })
-            }
+            },
         }
     }
 </script>

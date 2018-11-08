@@ -170,3 +170,28 @@ export function listPermissionByRoleId(roleId) {
         data: {roleId: roleId}
     })
 }
+
+
+/**
+ * 添加菜单
+ * @param params
+ */
+export function addPermission(params) {
+    return service({
+        url: "/api/permission/addPermission",
+        method: 'POST',
+        data: params
+    })
+}
+
+/**
+ * 修改菜单
+ * @param params
+ */
+export function editPermission(params) {
+    return service({
+        url: "/api/permission/editPermission",
+        method: 'POST',
+        data: params
+    })
+}

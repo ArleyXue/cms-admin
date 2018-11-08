@@ -50,10 +50,10 @@
         <pagination v-show="total > 0" :total="total" :page.sync="searchParams.page" :limit.sync="searchParams.limit" @pagination="listTableData" />
 
 
-        <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" top="40px">
+        <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" top="30px" width="35%">
             <el-form :model="itemForm" ref="itemForm"
                      :rules="rules" label-position="right" hide-required-asterisk
-                     label-width="90px" style="width: 70%; margin-left:40px;">
+                     label-width="90px" style="width: 75%; margin-left:40px;">
 
                 <el-form-item label="用户名" prop="userName">
                     <el-input v-model="itemForm.userName" :disabled="!isCreate" placeholder="请输入用户名(4-16位字母或数字)"/>

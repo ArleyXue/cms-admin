@@ -32,44 +32,8 @@ export const constantRouterMap = [
             {
                 path: 'index',
                 component: () => import('@/views/index/Index'),
-
                 name: '首页',
                 meta: {title: '首页', icon: 'arley-icon arley-icon-home', noCache: true}
-            }
-        ]
-    },
-
-    {
-        path: '/example',
-        component: Layout,
-        redirect: '/example/table',
-        name: 'Example',
-        meta: {title: 'Example', icon: 'example'},
-        children: [
-            {
-                path: 'table',
-                name: 'Table',
-                component: () => import('@/views/table/index'),
-                meta: {title: 'Table', icon: 'table'}
-            },
-            {
-                path: 'tree',
-                name: 'Tree',
-                component: () => import('@/views/tree/index'),
-                meta: {title: 'Tree', icon: 'tree'}
-            }
-        ]
-    },
-
-    {
-        path: '/form',
-        component: Layout,
-        children: [
-            {
-                path: 'index',
-                name: 'Form',
-                component: () => import('@/views/form/index'),
-                meta: {title: 'Form', icon: 'form'}
             }
         ]
     },
@@ -101,25 +65,40 @@ export const asyncRouterMap = [
         component: Layout,
         redirect: '/admin/admin-list',
         name: 'admin',
-        meta: {title: '管理员管理', icon: ''},
+        meta: {title: '管理员管理', icon: 'arley-icon arley-icon-admin'},
         children: [
             {
                 path: 'admin-list',
                 name: 'admin-list',
                 component: () => import('@/views/admin/admin/Index'),
-                meta: {title: '管理员列表', icon: ''}
+                meta: {title: '管理员列表', icon: 'arley-icon arley-icon-right_arrow'}
             },
             {
                 path: 'role-list',
                 name: 'role-list',
                 component: () => import('@/views/admin/role/Index'),
-                meta: {title: '角色列表', icon: ''}
+                meta: {title: '角色列表', icon: 'arley-icon arley-icon-right_arrow'}
             },
             {
                 path: 'permission-list',
                 name: 'permission-list',
                 component: () => import('@/views/admin/permission/Index'),
-                meta: {title: '菜单列表', icon: ''}
+                meta: {title: '菜单列表', icon: 'arley-icon arley-icon-right_arrow'}
+            }
+        ]
+    },
+    {
+        path: '/system',
+        component: Layout,
+        redirect: '/system/login-log',
+        name: 'system',
+        meta: {title: '系统管理', icon: 'arley-icon arley-icon-system'},
+        children: [
+            {
+                path: 'login-log',
+                name: 'login-log',
+                component: () => import('@/views/system/loginLog/Index'),
+                meta: {title: '登陆日志', icon: 'arley-icon arley-icon-right_arrow'}
             }
         ]
     },
