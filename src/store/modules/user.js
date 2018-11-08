@@ -1,21 +1,17 @@
 import {login, logout, getUserInfo} from '@/api/login'
-import {getToken, setToken, removeToken} from '@/utils/auth'
+import {setToken, removeToken} from '@/utils/auth'
 import {postRes} from "../../api/login";
 
 const user = {
     state: {
-        token: getToken(),
-        name: '',
+        userName: '',
         avatar: '',
         roles: []
     },
 
     mutations: {
-        SET_TOKEN: (state, token) => {
-            state.token = token
-        },
-        SET_NAME: (state, name) => {
-            state.name = name
+        SET_USER_NAME: (state, userName) => {
+            state.userName = userName
         },
         SET_AVATAR: (state, avatar) => {
             state.avatar = avatar
@@ -32,7 +28,6 @@ const user = {
             return new Promise((resolve, reject) => {
                 login(userName, userInfo.password).then(data => {
                     setToken(data.resultData.token);
-                    commit('SET_TOKEN', data.resultData.token);
                     resolve()
                 }).catch(error => {
                     reject(error)
@@ -50,7 +45,7 @@ const user = {
                     } else {
                         reject('getInfo: roles must be a non-null array !')
                     }
-                    commit('SET_NAME', data.name);
+                    commit('SET_USER_NAME', data.userName);
                     commit('SET_AVATAR', data.avatar);
                     resolve(response)
                 }).catch(error => {
@@ -63,7 +58,6 @@ const user = {
         Logout({commit, state}) {
             return new Promise((resolve, reject) => {
                 logout().then(() => {
-                    commit('SET_TOKEN', '');
                     commit('SET_ROLES', []);
                     removeToken();
                     resolve()
@@ -76,7 +70,6 @@ const user = {
         // 前端 登出
         FedLogout({commit}) {
             return new Promise(resolve => {
-                commit('SET_TOKEN', '');
                 removeToken();
                 resolve()
             })

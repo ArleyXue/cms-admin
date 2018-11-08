@@ -11,6 +11,7 @@ const whiteList = ['/login']; // 不重定向白名单
 
 router.beforeEach((to, from, next) => {
     NProgress.start();
+
     if (getToken()) {// 有token
         if (to.path === '/login') { // 如果地址是登录 跳转首页
             next({path: '/'});

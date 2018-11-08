@@ -1,6 +1,6 @@
 <template>
     <div class="dashboard-container">
-        <div class="dashboard-text">name:{{ name }}</div>
+        <div class="dashboard-text">name:{{ userName }}</div>
     <div class="dashboard-text">roles:<span v-for="role in roles" :key="role">{{ role }}</span></div>
         <el-input  style="width: 200px;" placeholder="请输入内容"></el-input>
         <el-input  style="width: 200px;" placeholder="请输入内容"></el-input>
@@ -13,7 +13,7 @@
     export default {
         name: 'index',
         computed: {
-            ...mapGetters(['name', 'roles'])
+            ...mapGetters(['userName', 'roles'])
         }
     }
 </script>

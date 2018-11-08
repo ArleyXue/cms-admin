@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 import {Message, MessageBox} from 'element-ui'
-import store from '../store'
+
 import router from '../router'
 import {getToken, removeToken} from '@/utils/auth'
 
@@ -12,22 +12,37 @@ const service = axios.create({
 });
 
 //设置默认请求头
+let contentType = "application/x-www-form-urlencoded; charset=UTF-8";
 service.defaults.headers = {
-    'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'
+    'Content-Type': contentType
 };
 
 // request拦截器
 service.interceptors.request.use(
     config => {
-        if (store.getters.token) {
+        if (getToken()) {
             config.headers['Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
         }
+
+        // 在发送请求之前做某件事
+        if (config.method.toUpperCase() === "POST" && config.headers['Content-Type'] === contentType) {
+            // 序列化
+            config.data = qs.stringify(config.data);
+            // 温馨提示,若是贵公司的提交能直接接受json 格式,可以不用 qs 来序列化的
+        }
+
         return config
     },
     error => {
         // Do something with request error
-        console.log(error); // for debug
-        Promise.reject(error)
+        // error 的回调信息,看贵公司的定义
+        Message({
+            //  饿了么的消息弹窗组件,类似toast
+            showClose: true,
+            message: error && error.data.error.message,
+            type: 'error'
+        });
+        return Promise.reject(error.data.error.message);
     }
 );
 
@@ -75,10 +90,10 @@ service.interceptors.response.use(
                     });
                     break;
             }
-            return Promise.reject('error')
-        } else {
-            return response.data
+            return Promise.reject(res.resultDesc);
         }
+
+        return response.data
     },
     error => {
         console.log('err' + error); // for debug
@@ -90,28 +105,5 @@ service.interceptors.response.use(
         return Promise.reject(error)
     }
 );
-
-/*
-    post请求
- */
-export function postRes(url, data) {
-    return service({
-        url: url,
-        method: 'post',
-        data: qs.stringify(data)
-    })
-}
-
-/*
-    get 请求
- */
-export function getRes(url, data) {
-    return service({
-        url: url,
-        method: 'get',
-        params: data
-    })
-}
-
 
 export default service
