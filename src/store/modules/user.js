@@ -1,23 +1,23 @@
 import {login, logout, getUserInfo} from '@/api/login'
-import {setToken, removeToken} from '@/utils/auth'
+import {setToken, removeToken, getToken} from '@/utils/auth'
 import {postRes} from "../../api/login";
 
 const user = {
     state: {
-        userName: '',
-        avatar: '',
-        roles: []
+        userInfo: '',
+        permissionMenuList: [],
+        permissionButtonList: [],
     },
 
     mutations: {
-        SET_USER_NAME: (state, userName) => {
-            state.userName = userName
+        SET_USER_INFO: (state, userInfo) => {
+            state.userInfo = userInfo
         },
-        SET_AVATAR: (state, avatar) => {
-            state.avatar = avatar
+        SET_PERMISSION_MENU_LIST: (state, permissionMenuList) => {
+            state.permissionMenuList = permissionMenuList
         },
-        SET_ROLES: (state, roles) => {
-            state.roles = roles
+        SET_PERMISSION_BUTTON_LIST: (state, permissionButtonList) => {
+            state.permissionButtonList = permissionButtonList
         }
     },
 
@@ -40,14 +40,23 @@ const user = {
             return new Promise((resolve, reject) => {
                 getUserInfo().then(response => {
                     const data = response.resultData;
-                    if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-                        commit('SET_ROLES', data.roles)
-                    } else {
-                        reject('getInfo: roles must be a non-null array !')
-                    }
-                    commit('SET_USER_NAME', data.userName);
-                    commit('SET_AVATAR', data.avatar);
-                    resolve(response)
+
+                    let permissionList = data.permissionList;
+                    let permissionMenuList = [];
+                    let permissionButtonList = [];
+                    permissionList.forEach(v => {
+                        if (v.menuType === 1) {
+                            permissionMenuList.push(v);
+                        } else {
+                            permissionButtonList.push(v);
+                        }
+                    });
+
+                    commit('SET_PERMISSION_MENU_LIST', permissionMenuList);
+                    commit('SET_PERMISSION_BUTTON_LIST', permissionButtonList);
+
+                    commit('SET_USER_INFO', data.sysUser);
+                    resolve(permissionMenuList)
                 }).catch(error => {
                     reject(error)
                 })
@@ -58,7 +67,8 @@ const user = {
         Logout({commit, state}) {
             return new Promise((resolve, reject) => {
                 logout().then(() => {
-                    commit('SET_ROLES', []);
+                    commit('SET_PERMISSION_MENU_LIST', []);
+                    commit('SET_PERMISSION_BUTTON_LIST', []);
                     removeToken();
                     resolve()
                 }).catch(error => {

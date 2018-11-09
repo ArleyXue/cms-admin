@@ -24,11 +24,11 @@
                             首页
                         </el-dropdown-item>
                     </router-link>
-                    <a target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">
+                    <router-link to="/log/login-log">
                         <el-dropdown-item>
-                            Github
+                            登录日志
                         </el-dropdown-item>
-                    </a>
+                    </router-link>
                     <el-dropdown-item divided>
                         <span style="display:block;" @click="Logout">退出</span>
                     </el-dropdown-item>

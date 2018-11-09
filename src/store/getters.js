@@ -2,9 +2,9 @@ const getters = {
     sidebar: state => state.app.sidebar,
     device: state => state.app.device,
     token: state => state.user.token,
-    avatar: state => state.user.avatar,
-    userName: state => state.user.userName,
-    roles: state => state.user.roles,
+    userInfo: state => state.user.userInfo,
+    permissionMenuList: state => state.user.permissionMenuList,
+    permissionButtonList: state => state.user.permissionButtonList,
     permission_routers: state => state.permission.routers,
     addRouters: state => state.permission.addRouters,
 };

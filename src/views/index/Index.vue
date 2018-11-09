@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard-container">
         <div class="dashboard-text">name:{{ userName }}</div>
-    <div class="dashboard-text">roles:<span v-for="role in roles" :key="role">{{ role }}</span></div>
+    <div class="dashboard-text">roles:<span v-for="(menu, index) in permissionMenuList" :key="index">{{ menu.menuName }}|</span></div>
         <el-input  style="width: 200px;" placeholder="请输入内容"></el-input>
         <el-input  style="width: 200px;" placeholder="请输入内容"></el-input>
     </div>
@@ -13,7 +13,7 @@
     export default {
         name: 'index',
         computed: {
-            ...mapGetters(['userName', 'roles'])
+            ...mapGetters(['userName', 'permissionMenuList', 'permissionButtonList'])
         }
     }
 </script>

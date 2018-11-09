@@ -17,9 +17,9 @@
                 style="width: 100%"
                 @sort-change="sortChange">
             <el-table-column prop="roleId" label="ID"  align="center" sortable="custom"></el-table-column>
-            <el-table-column prop="roleName" label="用户名"  align="center"></el-table-column>
-            <el-table-column prop="remark" show-overflow-tooltip label="备注"  align="center"></el-table-column>
-            <el-table-column prop="roleState" label="状态" align="center">
+            <el-table-column prop="roleName" label="角色名称"  align="center"></el-table-column>
+            <el-table-column prop="remark" show-overflow-tooltip label="角色备注"  align="center"></el-table-column>
+            <el-table-column prop="roleState" label="角色状态" align="center">
                 <template slot-scope="scope">
                     <el-tag :type="scope.row.roleState === 1 ?  'success' : 'danger'">{{scope.row.roleState === 1 ? '启动' : '禁用'}}</el-tag>
                 </template>

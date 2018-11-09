@@ -38,6 +38,19 @@ export const constantRouterMap = [
         ]
     },
     {
+        path: '/log',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'login-log',
+                name: 'login-log',
+                component: () => import('@/views/system/loginLog/Index'),
+                meta: {title: '登陆日志'}
+            }
+        ]
+    },
+    {
         path: '/redirect',
         component: Layout,
         hidden: true,
@@ -65,25 +78,25 @@ export const asyncRouterMap = [
         component: Layout,
         redirect: '/admin/admin-list',
         name: 'admin',
-        meta: {title: '管理员管理', icon: 'arley-icon arley-icon-admin'},
+        meta: {title: '管理员管理', icon: 'arley-icon arley-icon-admin', menuCode: 'admin'},
         children: [
             {
                 path: 'admin-list',
                 name: 'admin-list',
                 component: () => import('@/views/admin/admin/Index'),
-                meta: {title: '管理员列表', icon: 'arley-icon arley-icon-right_arrow'}
+                meta: {title: '管理员列表', icon: 'arley-icon arley-icon-right_arrow', menuCode: 'admin.adminList'}
             },
             {
                 path: 'role-list',
                 name: 'role-list',
                 component: () => import('@/views/admin/role/Index'),
-                meta: {title: '角色列表', icon: 'arley-icon arley-icon-right_arrow'}
+                meta: {title: '角色列表', icon: 'arley-icon arley-icon-right_arrow', menuCode: 'admin.roleList'}
             },
             {
                 path: 'permission-list',
                 name: 'permission-list',
                 component: () => import('@/views/admin/permission/Index'),
-                meta: {title: '菜单列表', icon: 'arley-icon arley-icon-right_arrow'}
+                meta: {title: '菜单列表', icon: 'arley-icon arley-icon-right_arrow', menuCode: 'admin.menuList'}
             }
         ]
     },
@@ -92,13 +105,13 @@ export const asyncRouterMap = [
         component: Layout,
         redirect: '/system/login-log',
         name: 'system',
-        meta: {title: '系统管理', icon: 'arley-icon arley-icon-system'},
+        meta: {title: '系统管理', icon: 'arley-icon arley-icon-system', menuCode: 'system'},
         children: [
             {
                 path: 'login-log',
                 name: 'login-log',
                 component: () => import('@/views/system/loginLog/Index'),
-                meta: {title: '登陆日志', icon: 'arley-icon arley-icon-right_arrow'}
+                meta: {title: '登陆日志', icon: 'arley-icon arley-icon-right_arrow', menuCode: 'system.loginlog'}
             }
         ]
     },
