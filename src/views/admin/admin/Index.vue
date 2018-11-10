@@ -50,7 +50,7 @@
         <pagination v-show="total > 0" :total="total" :page.sync="searchParams.page" :limit.sync="searchParams.limit" @pagination="listTableData" />
 
 
-        <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" top="30px" width="35%">
+        <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" top="30px" width="600px">
             <el-form :model="itemForm" ref="itemForm"
                      :rules="rules" label-position="right" hide-required-asterisk
                      label-width="90px" style="width: 75%; margin-left:40px;">
@@ -117,40 +117,30 @@
     import {listAdminByPage, checkIsExistUserName, listRole, addAdmin, deleteAdmin, getRoleBySysUserId, editAdmin} from '@/api/admin'
     import Pagination from "@/components/Pagination/Pagination" // 分页
     import SingleImage from "@/components/upload/SingleImage"
-
+    import {_validateUserName, _validatePhone} from '@/utils/validateMethod'
     export default {
         directives: {waves},
         data() {
             let validateUserName = (rule, value, callback) => {
                 if (!this.isCreate) {
                     callback();
-                    return;
-                }
-                if (value === '') {
-                    callback(new Error('请输入用户名'));
-                    return;
-                }
-                if(!new RegExp(/^[a-zA-Z0-9_-]{4,16}$/).test(value)){
-                    callback(new Error('用户名不合格'));
-                    return;
+                    return true;
                 }
 
-                // 发起请求检查用户名是否存在
-                checkIsExistUserName({userName: value}).then(response => {
-                    let isExist = response.resultData.isExist;
-                    if (isExist) {
-                        callback(new Error("此用户名已存在"));
-                    } else {
-                        callback();
-                    }
-                });
+                if (_validateUserName(rule, value, callback)) {
+                    // 发起请求检查用户名是否存在
+                    checkIsExistUserName({userName: value}).then(response => {
+                        let isExist = response.resultData.isExist;
+                        if (isExist) {
+                            callback(new Error("此用户名已存在"));
+                        } else {
+                            callback();
+                        }
+                    });
+                }
             };
             let validatePhone = (rule, value, callback) => {
-                if(value !== '' && value !== null && !new RegExp(/^1\d{10}$/).test(value)){
-                    callback(new Error('请输入正确手机号'));
-                    return;
-                }
-                callback();
+                _validatePhone(rule, value, callback)
             };
             return {
                 loading: false,

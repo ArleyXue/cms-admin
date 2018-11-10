@@ -46,7 +46,7 @@
         </el-table>
 
 
-        <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible"  width="30%" v-el-drag-dialog>
+        <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible"  width="550px" v-el-drag-dialog>
             <el-form :model="itemForm" ref="itemForm"
                      :rules="rules" label-position="right" hide-required-asterisk
                      label-width="90px" style="width: 75%; margin-left:40px;">

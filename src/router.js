@@ -38,10 +38,22 @@ export const constantRouterMap = [
         ]
     },
     {
-        path: '/log',
+        path: '/my',
         component: Layout,
         hidden: true,
         children: [
+            {
+                path: 'user-info',
+                name: 'user-info',
+                component: () => import('@/views/my/userInfo/Index'),
+                meta: {title: '个人资料'}
+            },
+            {
+                path: 'rest-pwd',
+                name: 'rest-pwd',
+                component: () => import('@/views/my/restPwd/Index'),
+                meta: {title: '修改密码'}
+            },
             {
                 path: 'login-log',
                 name: 'login-log',

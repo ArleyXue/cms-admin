@@ -19,7 +19,6 @@ Vue.use(ElementUI, {
 })
  // 全局自定义组件
 Vue.config.productionTip = false;
-
 new Vue({
     router,
     store,

@@ -16,22 +16,35 @@
             <el-dropdown class="avatar-container right-menu-item" trigger="click">
                 <div class="avatar-wrapper">
                     <img :src="userInfo.avatar" class="user-avatar">
-                    <span>admin</span>
+                    <div class="user-name">
+                        <span style="font-size: 17px;">{{userInfo.userName}}</span>
+                    </div>
                     <i class="el-icon-caret-bottom"/>
                 </div>
-                <el-dropdown-menu slot="dropdown">
+                <el-dropdown-menu slot="dropdown" class="my-wrapper">
                     <router-link to="/">
                         <el-dropdown-item>
-                            首页
                         </el-dropdown-item>
                     </router-link>
-                    <router-link to="/log/login-log">
+                    <router-link to="/my/user-info">
                         <el-dropdown-item>
-                            登录日志
+                            <i class="arley-icon arley-icon-personal"></i><span style="padding-left: 5px">个人资料</span>
+                        </el-dropdown-item>
+                    </router-link>
+                    <router-link to="/my/rest-pwd">
+                        <el-dropdown-item>
+                            <i class="arley-icon arley-icon-update-password"></i><span style="padding-left: 5px">修改密码</span>
+                        </el-dropdown-item>
+                    </router-link>
+                    <router-link to="/my/login-log">
+                        <el-dropdown-item>
+                            <i class="arley-icon arley-icon-log-login"></i><span style="padding-left: 5px">登录日志</span>
                         </el-dropdown-item>
                     </router-link>
                     <el-dropdown-item divided>
-                        <span style="display:block;" @click="Logout">退出</span>
+                        <span style="display:block;" @click="Logout">
+                            <i class="arley-icon arley-icon-quit"></i><span style="padding-left: 5px">退出</span>
+                        </span>
                     </el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
@@ -107,10 +120,17 @@
                     cursor: pointer
                     margin-top: 5px
                     position: relative
+                    div
+                        display: inline-block
                     .user-avatar
                         width: 40px
                         height: 40px
                         border-radius: 10px
+                    .user-name
+                        display: inline-block
+                        padding-left: 10px
+                        position: relative
+                        top: -13px
                     .el-icon-caret-bottom
                         position: absolute
                         right: -20px

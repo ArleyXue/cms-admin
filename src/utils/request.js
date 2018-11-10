@@ -1,13 +1,14 @@
 import axios from 'axios'
 import qs from 'qs'
 import {Message, MessageBox} from 'element-ui'
+import constants from '@/utils/constants'
 
 import router from '../router'
 import {getToken, removeToken} from '@/utils/auth'
 
 // 创建axios实例
 const service = axios.create({
-    baseURL: "http://localhost:8081/cms-admin-console", // api 的 base_url
+    baseURL: constants.BASE_URL, // api 的 base_url
     timeout: 50000 // 请求超时时间
 });
 
