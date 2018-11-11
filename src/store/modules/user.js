@@ -1,4 +1,5 @@
-import {login, logout, getUserInfo} from '@/api/login'
+import {login, logout} from '@/api/login'
+import {getUserInfo} from '@/api/userInfo'
 import {setToken, removeToken, getToken} from '@/utils/auth'
 import {postRes} from "../../api/login";
 

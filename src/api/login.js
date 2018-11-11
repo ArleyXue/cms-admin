@@ -14,17 +14,6 @@ export function login(userName, password) {
 }
 
 /**
- * 获取用户信息
- * @param token
- */
-export function getUserInfo() {
-    return service({
-        url: "/api/user/getUserInfo",
-        method: 'GET'
-    })
-}
-
-/**
  * 退出登录
  */
 export function logout() {

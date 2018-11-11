@@ -22,13 +22,30 @@
         import {getToken} from '@/utils/auth'
 
         export default {
+            props: {
+                isShow: {
+                    type: Boolean,
+                    default: false
+                }
+            },
+
             data() {
                 return {
                     headers: {
                         token: getToken()
                     },
-                    showUpload: true,
+                    showUpload: false,
                     uploadUrl: constants.BASE_URL + "/api/upload/uploadPic"
+                }
+            },
+
+
+            watch: {
+                isShow() {
+                    this.showUpload = this.isShow;
+                },
+                showUpload() {
+                    this.$emit("update:isShow", this.showUpload)
                 }
             },
 
