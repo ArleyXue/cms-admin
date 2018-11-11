@@ -29,9 +29,9 @@
                         <el-form-item label="邮箱" prop="email">
                             <el-input v-model="itemForm.email" placeholder="请输入邮箱"/>
                         </el-form-item>
-
-                            <el-button style="margin-left: 90px" type="success" @click="updateUserInfo">确定修改</el-button>
-
+                        <el-form-item>
+                            <el-button type="success" @click="updateUserInfo">确定修改</el-button>
+                        </el-form-item>
                     </el-form>
             </el-col>
         </el-row>

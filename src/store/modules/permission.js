@@ -7,7 +7,12 @@ import {asyncRouterMap, constantRouterMap} from '@/router'
  */
 function hasPermission(permissionMenuList, route) {
     if (route.meta && route.meta.menuCode) {
-        return permissionMenuList.some(role => route.meta.menuCode === role.menuCode)
+        return permissionMenuList.some(role => {
+            if (route.meta.menuCode === role.menuCode) {
+                route.meta.icon = role.menuIcon;
+                return true;
+            }
+        })
     } else {
         return true
     }

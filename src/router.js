@@ -124,6 +124,12 @@ export const asyncRouterMap = [
                 name: 'login-log',
                 component: () => import('@/views/system/loginLog/Index'),
                 meta: {title: '登陆日志', icon: 'arley-icon arley-icon-right_arrow', menuCode: 'system.loginlog'}
+            },
+            {
+                path: 'icon-list',
+                name: 'icon-list\'',
+                component: () => import('@/views/system/icon/Index'),
+                meta: {title: '图标列表', icon: 'arley-icon arley-icon-right_arrow', menuCode: 'system.loginlog'}
             }
         ]
     },

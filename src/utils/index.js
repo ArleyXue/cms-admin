@@ -72,3 +72,21 @@ export function formatTime(time, option) {
 export function isExternal(path) {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
+
+/**
+ * 获取图标列表
+ * @param iconData
+ */
+export function listIcon (iconData) {
+    let iconList = [];
+    let icons = iconData.split("\n");
+    icons.forEach(function (value) {
+        if (value.indexOf(".arley-icon-") === 0) {
+            let str = value.split(":")[0];
+            iconList.push("arley-icon " + str.substring(1, str.length));
+        }
+    });
+    return iconList;
+}
+
+

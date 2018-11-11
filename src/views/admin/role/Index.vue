@@ -222,13 +222,13 @@
             },
 
             _listPermissionByRoleId(roleId) { // 获取角色拥有的菜单
-                listPermissionByRoleId(roleId).then(response => {
-                    let permissionList = response.resultData;
-                    let permissionIds = [];
-                    permissionList.forEach(v => {
-                        permissionIds.push(v.permissionId);
-                    });
-                    this.$nextTick(() => {
+                this.$nextTick(() => {
+                    listPermissionByRoleId(roleId).then(response => {
+                        let permissionList = response.resultData;
+                        let permissionIds = [];
+                        permissionList.forEach(v => {
+                            permissionIds.push(v.permissionId);
+                        });
                         this.$refs.permissionTree.setCheckedKeys(permissionIds);
                     })
                 })
