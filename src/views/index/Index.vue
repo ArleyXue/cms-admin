@@ -29,8 +29,11 @@
                             <el-col :span="5">
                                 <div class="text-item">{{log.userName}}</div>
                             </el-col>
-                            <el-col :span="19">
+                            <el-col :span="6">
                                 <div class="text-item">{{log.content}}</div>
+                            </el-col>
+                            <el-col :span="13">
+                                <div class="text-item">时间: {{log.loginTime}}</div>
                             </el-col>
 
                         </div>

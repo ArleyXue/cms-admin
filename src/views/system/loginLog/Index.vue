@@ -19,6 +19,7 @@
             <el-table-column prop="id" label="ID"  align="center" sortable="custom"></el-table-column>
             <el-table-column prop="userName" label="用户名"  align="center"></el-table-column>
             <el-table-column prop="loginIp" label="登录IP"  align="center"></el-table-column>
+            <el-table-column prop="loginLocation" label="登录地点"  align="center"></el-table-column>
             <el-table-column prop="loginTime" label="时间"  align="center"></el-table-column>
             <el-table-column align="center" label="类型" >
                 <template slot-scope="scope">
