@@ -12,16 +12,6 @@ export function getUserInfo() {
 }
 
 /**
- * 获取用户首页数据
- */
-export function getUserIndexData() {
-    return service({
-        url: "/api/user/getUserIndexData",
-        method: 'GET'
-    })
-}
-
-/**
  * 修改个人信息
  * @param params
  */

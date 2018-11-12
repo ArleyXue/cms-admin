@@ -115,22 +115,22 @@ export const asyncRouterMap = [
     {
         path: '/system',
         component: Layout,
-        redirect: '/system/login-log',
+        redirect: '/system/login-log-list',
         name: 'system',
         meta: {title: '系统管理', icon: 'arley-icon arley-icon-system', menuCode: 'system'},
         children: [
             {
-                path: 'login-log',
-                name: 'login-log',
+                path: 'login-log-list',
+                name: 'login-log-list',
                 component: () => import('@/views/system/loginLog/Index'),
                 meta: {title: '登陆日志', icon: 'arley-icon arley-icon-right_arrow', menuCode: 'system.loginlog'}
             },
-            {
+            /*{
                 path: 'icon-list',
-                name: 'icon-list\'',
+                name: 'icon-list',
                 component: () => import('@/views/system/icon/Index'),
                 meta: {title: '图标列表', icon: 'arley-icon arley-icon-right_arrow', menuCode: 'system.loginlog'}
-            }
+            }*/
         ]
     },
 

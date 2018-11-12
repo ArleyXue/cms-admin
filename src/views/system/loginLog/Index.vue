@@ -18,8 +18,13 @@
                 @sort-change="sortChange">
             <el-table-column prop="id" label="ID"  align="center" sortable="custom"></el-table-column>
             <el-table-column prop="userName" label="用户名"  align="center"></el-table-column>
-            <el-table-column prop="loginIp" label="登录ID"  align="center"></el-table-column>
-            <el-table-column prop="loginTime" label="登录时间"  align="center"></el-table-column>
+            <el-table-column prop="loginIp" label="登录IP"  align="center"></el-table-column>
+            <el-table-column prop="loginTime" label="时间"  align="center"></el-table-column>
+            <el-table-column align="center" label="类型" >
+                <template slot-scope="scope">
+                    <el-tag :type="scope.row.logType === 1 ? '' : 'warning'">{{scope.row.logType === 1 ? '登录' : '退出'}}</el-tag>
+                </template>
+            </el-table-column>
             <el-table-column prop="content" label="内容"  align="center"></el-table-column>
         </el-table>
 
