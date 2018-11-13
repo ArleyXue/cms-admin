@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from './request'
 
 export function uploadPic(file) {
     let param = new FormData(); //创建form对象

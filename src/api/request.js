@@ -9,7 +9,7 @@ import {getToken, removeToken} from '@/utils/auth'
 // 创建axios实例
 const service = axios.create({
     baseURL: constants.BASE_URL, // api 的 base_url
-    timeout: 50000 // 请求超时时间
+    timeout: 30000 // 请求超时时间
 });
 
 //设置默认请求头
@@ -70,7 +70,7 @@ service.interceptors.response.use(
                     Message({
                         message: res.resultDesc,
                         type: 'error',
-                        duration: 5 * 1000
+                        duration: 2 * 1000
                     });
                     break;
                 case "1000" :  // 没有权限
@@ -87,7 +87,7 @@ service.interceptors.response.use(
                     Message({
                         message: res.resultDesc,
                         type: 'error',
-                        duration: 5 * 1000
+                        duration: 2 * 1000
                     });
                     break;
             }
@@ -101,7 +101,7 @@ service.interceptors.response.use(
         Message({
             message: error.message,
             type: 'error',
-            duration: 5 * 1000
+            duration: 2 * 1000
         });
         return Promise.reject(error)
     }
