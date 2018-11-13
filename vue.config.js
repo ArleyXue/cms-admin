@@ -16,7 +16,7 @@ module.exports = {
     baseUrl: './',
 
     // 将构建好的文件输出到哪里
-    outputDir: 'dist',
+    outputDir: 'cms-admin',
 
     // 放置静态资源的地方 (js/css/img/font/...)
     // assetsDir: '',
