@@ -27,8 +27,8 @@
             <el-table-column prop="modifier" label="操作人" align="center"></el-table-column>
             <el-table-column label="操作" align="center" fixed="right" width="210">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="primary" @click="handleUpdate(scope.row)"><i class="arley-icon arley-icon-edit"></i>编辑</el-button>
-                    <el-button size="mini" type="danger" @click="handleDelete(scope.row.roleId)"><i class="arley-icon arley-icon-del"></i>删除</el-button>
+                    <el-button size="mini" type="primary" :disabled="scope.row.roleId === 1 && userInfo.userName !== 'admin'" @click="handleUpdate(scope.row)"><i class="arley-icon arley-icon-edit"></i>编辑</el-button>
+                    <el-button size="mini" type="danger" :disabled="scope.row.roleId === 1 && userInfo.userName !== 'admin'" @click="handleDelete(scope.row.roleId)"><i class="arley-icon arley-icon-del"></i>删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -79,6 +79,7 @@
 
     import {listRoleByPage, listTreePermission, addRole, listPermissionByRoleId, editRole, deleteRole} from '@/api/admin'
     import Pagination from "@/components/Pagination/Pagination" // 分页
+    import {mapGetters} from "vuex"
 
     export default {
         data() {
@@ -119,9 +120,7 @@
         },
 
         computed: {
-            userName() {
-                return this.$store.getters.userName;
-            }
+            ...mapGetters(['userInfo'])
         },
 
         methods: {

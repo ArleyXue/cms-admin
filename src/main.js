@@ -11,6 +11,9 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import '@/styles/index.styl' // global css
 
+import 'viewerjs/dist/viewer.css' // 图片预览插件
+import Viewer from 'v-viewer'
+Vue.use(Viewer);
 
 import '@/permission' // permission control
 

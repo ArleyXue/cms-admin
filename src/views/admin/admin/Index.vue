@@ -25,7 +25,7 @@
             <el-table-column prop="name" label="姓名"  align="center"></el-table-column>
             <el-table-column prop="avatar" label="头像"  align="center">
                 <template slot-scope="scope">
-                    <img v-if="scope.row.avatar" :src="scope.row.avatar" width="40" height="40" />
+                    <img v-if="scope.row.avatar" v-viewer :src="scope.row.avatar" width="40" height="40" />
                 </template>
             </el-table-column>
             <el-table-column prop="email" show-overflow-tooltip label="邮箱"  align="center"></el-table-column>
@@ -95,9 +95,14 @@
                 </el-form-item>
 
                 <el-form-item label="角色">
-                    <el-radio-group v-model="itemForm.roleId">
-                        <el-radio :label.number="role.roleId" v-for="(role, index) in roleList">{{role.roleName}}</el-radio>
-                    </el-radio-group>
+                    <el-select v-model.number="itemForm.roleId" placeholder="角色" clearable>
+                        <el-option
+                                v-for="(role, index) in roleList"
+                                :key="index"
+                                :label="role.roleName"
+                                :value="role.roleId">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
 
 
